@@ -1,0 +1,14 @@
+{
+  "name":"Pražské metro – hlášení",
+  "short_name":"Metro hlášení",
+  "description":"Simulátor hlášení linek A, B a C pražského metra.",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#111827",
+  "theme_color":"#111827",
+  "lang":"cs-CZ",
+  "icons":[
+    {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png"},
+    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png"}
+  ]
+}
