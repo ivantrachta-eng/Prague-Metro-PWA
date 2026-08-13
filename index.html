@@ -6,19 +6,34 @@
   <meta name="theme-color" content="#111827" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Metro hlášení" />
+  <meta name="apple-mobile-web-app-title" content="Pražská doprava" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
-  <title>Pražské metro – hlášení</title>
+  <title>Pražská doprava – hlášení</title>
 </head>
 <body>
   <main class="app-shell">
-    <header class="hero"><div><p class="eyebrow">PWA pro iPhone</p><h1>Pražské metro – hlášení</h1><p class="muted">Linky A, B a C · oba směry · offline po prvním načtení</p></div><div id="lineBadge" class="line-badge">A</div></header>
-    <section class="panel controls"><label>Linka<select id="lineSelect"></select></label><label>Směr<select id="directionSelect"></select></label><label>Stanice<select id="stationSelect"></select></label></section>
-    <section class="panel announcement-panel"><div class="panel-head"><span>Aktuální hlášení</span><span id="audioMode" class="chip">Systémový hlas</span></div><p id="announcementText" class="announcement"></p><label class="auto-next"><input id="autoNext" type="checkbox" /> Automaticky další stanice</label><div class="button-row"><button id="prevBtn" class="secondary">Předchozí</button><button id="playBtn" class="primary">▶ Přehrát</button><button id="nextBtn" class="secondary">Další</button></div><p id="status" class="muted small">Pokud nejsou přidané vlastní WAV soubory, použije se český systémový hlas zařízení.</p></section>
+    <header class="hero"><div><p class="eyebrow">PWA pro iPhone</p><h1>Pražská doprava – hlášení</h1><p class="muted">Metro, tramvaje a městské autobusy · data PID</p></div><div id="lineBadge" class="line-badge">A</div></header>
+
+    <section class="panel mode-panel" aria-label="Dopravní prostředek">
+      <div class="mode-picker">
+        <button class="mode-btn active" data-mode="metro" type="button" aria-label="Metro">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="currentColor"/><path d="M19 43V20h7l6 10 6-10h7v23h-7V31l-6 10-6-10v12z" fill="white"/></svg><span>Metro</span>
+        </button>
+        <button class="mode-btn" data-mode="tram" type="button" aria-label="Tramvaj">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M19 7h26v5H35v5h8c5 0 8 3 8 8v20c0 5-3 8-8 8l5 5h-7l-5-5h-8l-5 5h-7l5-5c-5 0-8-3-8-8V25c0-5 3-8 8-8h8v-5H19zm1 18v12h24V25zm4 18a4 4 0 1 0 0 8 4 4 0 0 0 0-8m16 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8" fill="currentColor"/></svg><span>Tramvaj</span>
+        </button>
+        <button class="mode-btn" data-mode="bus" type="button" aria-label="Autobus">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 9h32c5 0 8 4 8 9v28c0 4-3 7-7 7h-1v5h-7v-5H23v5h-7v-5h-1c-4 0-7-3-7-7V18c0-5 3-9 8-9m0 8v17h32V17zm3 24a4 4 0 1 0 0 8 4 4 0 0 0 0-8m26 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8" fill="currentColor"/></svg><span>Autobus</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel controls"><label>Linka<select id="lineSelect"></select></label><label>Směr<select id="directionSelect"></select></label><label id="stopLabel">Stanice<select id="stationSelect"></select></label></section>
+    <section class="panel announcement-panel"><div class="panel-head"><span>Aktuální hlášení</span><span id="audioMode" class="chip">Systémový hlas</span></div><p id="announcementText" class="announcement"></p><label class="auto-next"><input id="autoNext" type="checkbox" /> Automaticky další zastávka</label><div class="button-row"><button id="prevBtn" class="secondary">Předchozí</button><button id="playBtn" class="primary">▶ Přehrát</button><button id="nextBtn" class="secondary">Další</button></div><p id="status" class="muted small">Připraveno.</p></section>
     <section class="panel"><div class="panel-head"><span>Trasa</span><span id="stationCount" class="chip"></span></div><div id="routeList" class="route-list"></div></section>
-    <section class="panel"><div class="panel-head"><span>Zvukové segmenty</span></div><div id="sequence" class="sequence"></div><p class="muted small">Vlastní audio vlož do složky <code>audio/</code>. Aplikace umí přednostně použít WAV soubory a jinak spadne na systémový TTS.</p></section>
-    <section class="install-note"><strong>Na iPhonu:</strong> otevři web v Safari → Sdílet → Přidat na plochu.</section>
+    <section class="panel"><div class="panel-head"><span>Zvukové segmenty</span></div><div id="sequence" class="sequence"></div><p class="muted small">Metro používá vlastní gongy A/B/C. Tramvajové a autobusové hlášení zatím používá český systémový hlas; vlastní audio lze doplnit později.</p></section>
+    <section class="install-note"><strong>Data:</strong> tramvajové a autobusové trasy se generují z oficiálního GTFS PID. <strong>Na iPhonu:</strong> Safari → Sdílet → Přidat na plochu.</section>
   </main><script src="app.js"></script>
 </body></html>
