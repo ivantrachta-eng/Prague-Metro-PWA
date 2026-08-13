@@ -25,6 +25,7 @@ for t in trips:
 
 metro_by_stop=defaultdict(set)
 rail_stops=set()
+ferry_stops=set()
 seq=defaultdict(list)
 for s in stop_times:
     tid=s['trip_id']; sid=s['stop_id']; name=stop_name.get(sid,sid)
@@ -37,6 +38,8 @@ for s in stop_times:
         metro_by_stop[name].add(short)
     if typ=='2':
         rail_stops.add(name)
+    if typ=='4':
+        ferry_stops.add(name)
 for k in seq:
     seq[k]=[x[1] for x in sorted(seq[k])]
 
@@ -49,9 +52,6 @@ RAIL_ALIASES={
     'Nádraží Uhříněves','Nádraží Čakovice','Nádraží Kbely','Nádraží Satalice',
     'Nádraží Běchovice','Nádraží Braník','Nádraží Veleslavín'
 }
-# Pražské tramvajové zastávky vedené v režimu na znamení. Tento seznam je
-# oddělený od autobusů, kde od 29. 6. 2024 platí režim na znamení plošně,
-# ale samostatné doplňkové hlášení se již běžně nepoužívá.
 TRAM_REQUEST_STOPS={
     'Belárie','Čechova čtvrť','Černý kůň','Dubečská','Kyselova','Líbeznická',
     'Modřanská škola','Nademlejnská','Pobřežní cesta','Poštovská','Špitálská',
@@ -61,11 +61,13 @@ TRAM_REQUEST_STOPS={
 def stop_obj(name, is_tram=False):
     metro=sorted(set(metro_by_stop.get(name,set())) | set(METRO_ALIASES.get(name,[])))
     rail=(name in rail_stops) or (name in RAIL_ALIASES)
+    ferry=name in ferry_stops
     request=is_tram and name in TRAM_REQUEST_STOPS
-    if metro or rail or request:
+    if metro or rail or ferry or request:
         o={'name':name}
         if metro:o['metro']=metro
         if rail:o['rail']=True
+        if ferry:o['ferry']=True
         if request:o['request']=True
         return o
     return name
@@ -94,4 +96,4 @@ def sortkey(x):
 out['tram']=dict(sorted(out['tram'].items(),key=lambda kv:sortkey(kv[0])))
 out['bus']=dict(sorted(out['bus'].items(),key=lambda kv:sortkey(kv[0])))
 with open(OUT,'w',encoding='utf-8') as f: json.dump(out,f,ensure_ascii=False,separators=(',',':'))
-print('Wrote',OUT,'tram',len(out['tram']),'bus',len(out['bus']))
+print('Wrote',OUT,'tram',len(out['tram']),'bus',len(out['bus']),'ferry stops',len(ferry_stops))
