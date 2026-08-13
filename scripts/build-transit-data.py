@@ -23,8 +23,6 @@ for t in trips:
     trip_meta[t['trip_id']]=t
     trip_route[t['trip_id']]=t['route_id']
 
-# Services available at each named stop. This lets the app announce
-# transfers from tram/bus stops to metro and rail without live lookups.
 metro_by_stop=defaultdict(set)
 rail_stops=set()
 seq=defaultdict(list)
@@ -42,12 +40,7 @@ for s in stop_times:
 for k in seq:
     seq[k]=[x[1] for x in sorted(seq[k])]
 
-# A few Prague interchange names differ between surface transport and
-# the corresponding metro/rail stop in GTFS, so keep explicit aliases.
-METRO_ALIASES={
-    'Na Knížecí':['B'],
-    'Palackého náměstí':['B'],
-}
+METRO_ALIASES={'Na Knížecí':['B'],'Palackého náměstí':['B']}
 RAIL_ALIASES={
     'Hlavní nádraží','Masarykovo nádraží','Nádraží Holešovice','Nádraží Vršovice',
     'Nádraží Libeň','Nádraží Vysočany','Nádraží Podbaba','Smíchovské nádraží',
@@ -56,14 +49,24 @@ RAIL_ALIASES={
     'Nádraží Uhříněves','Nádraží Čakovice','Nádraží Kbely','Nádraží Satalice',
     'Nádraží Běchovice','Nádraží Braník','Nádraží Veleslavín'
 }
+# Pražské tramvajové zastávky vedené v režimu na znamení. Tento seznam je
+# oddělený od autobusů, kde od 29. 6. 2024 platí režim na znamení plošně,
+# ale samostatné doplňkové hlášení se již běžně nepoužívá.
+TRAM_REQUEST_STOPS={
+    'Belárie','Čechova čtvrť','Černý kůň','Dubečská','Kyselova','Líbeznická',
+    'Modřanská škola','Nademlejnská','Pobřežní cesta','Poštovská','Špitálská',
+    'Štěpničná','U Elektry','U Libušského potoka'
+}
 
-def stop_obj(name):
+def stop_obj(name, is_tram=False):
     metro=sorted(set(metro_by_stop.get(name,set())) | set(METRO_ALIASES.get(name,[])))
     rail=(name in rail_stops) or (name in RAIL_ALIASES)
-    if metro or rail:
+    request=is_tram and name in TRAM_REQUEST_STOPS
+    if metro or rail or request:
         o={'name':name}
         if metro:o['metro']=metro
         if rail:o['rail']=True
+        if request:o['request']=True
         return o
     return name
 
@@ -73,7 +76,8 @@ def choose_patterns(route_id):
     for trip in trips_by_route[route_id]:
         p=tuple(seq.get(trip,[])); d=trip_meta[trip].get('direction_id','0')
         if p and (d not in by_dir or pats[p]>pats[by_dir[d]]): by_dir[d]=p
-    return [[stop_obj(name) for name in p] for _,p in sorted(by_dir.items())]
+    is_tram=route_info.get(route_id,{}).get('route_type','')=='0'
+    return [[stop_obj(name,is_tram) for name in p] for _,p in sorted(by_dir.items())]
 
 out={'tram':{},'bus':{}}
 for rid,r in route_info.items():
