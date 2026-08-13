@@ -1,6 +1,10 @@
 name: Update PID transit data
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/update-transit-data.yml'
+      - 'scripts/build-transit-data.py'
   schedule:
     - cron: '17 3 * * *'
 permissions:
