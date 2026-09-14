@@ -1,0 +1,109 @@
+name: Validate Ostrava DPO transit parser
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ostrava-data-pipeline
+    paths:
+      - 'ostrava/dpo_transit_parser.py'
+      - 'ostrava/requirements.txt'
+      - '.github/workflows/validate-ostrava-all.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: ostrava/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r ostrava/requirements.txt
+
+      - name: Parse tram timetables
+        run: |
+          python ostrava/dpo_transit_parser.py \
+            --mode tram \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-tram-data-v2.json \
+            --report ostrava/tram-report-v2.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Parse trolleybus timetables
+        run: |
+          python ostrava/dpo_transit_parser.py \
+            --mode trolleybus \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-trolleybus-data.json \
+            --report ostrava/trolleybus-report.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Parse bus timetables
+        run: |
+          python ostrava/dpo_transit_parser.py \
+            --mode bus \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-bus-data.json \
+            --report ostrava/bus-report.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Build combined transport JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          files = {
+              'tram': 'ostrava/ostrava-tram-data-v2.json',
+              'trolleybus': 'ostrava/ostrava-trolleybus-data.json',
+              'bus': 'ostrava/ostrava-bus-data.json',
+          }
+          out = {'source': 'DPO official PDF timetables', 'modes': {}}
+          for mode, filename in files.items():
+              d = json.loads(Path(filename).read_text(encoding='utf-8'))
+              out['modes'][mode] = {
+                  'source': d['source'],
+                  'generatedAt': d['generatedAt'],
+                  'lines': d['lines'],
+              }
+          Path('ostrava/ostrava-transit-data.json').write_text(
+              json.dumps(out, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          PY
+
+      - name: Summarize QA
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for mode in ('tram', 'trolleybus', 'bus'):
+              p = Path(f'ostrava/{mode if mode != "tram" else "tram"}-report-v2.json') if mode == 'tram' else Path(f'ostrava/{mode}-report.json')
+              rows = json.loads(p.read_text(encoding='utf-8'))
+              ok = sum(bool(x.get('ok')) for x in rows)
+              variants = sum(bool(x.get('hasVariants')) for x in rows)
+              warnings = sum(len(x.get('warnings', [])) for x in rows)
+              print(f'{mode}: {ok}/{len(rows)} OK, {variants} variant lines, {warnings} warnings')
+          PY
+
+      - name: Upload parser outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ostrava-all-transit-output
+          path: |
+            ostrava/ostrava-transit-data.json
+            ostrava/ostrava-tram-data-v2.json
+            ostrava/ostrava-trolleybus-data.json
+            ostrava/ostrava-bus-data.json
+            ostrava/tram-report-v2.json
+            ostrava/trolleybus-report.json
+            ostrava/bus-report.json
+            ostrava/debug/
