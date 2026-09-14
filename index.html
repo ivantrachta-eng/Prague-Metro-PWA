@@ -6,40 +6,33 @@
   <meta name="theme-color" content="#111827" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Pražská doprava" />
+  <meta name="apple-mobile-web-app-title" content="MHD hlášení" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <title>Pražská doprava – hlášení</title>
+  <title>MHD hlášení – výběr města</title>
+  <style>
+    :root{color-scheme:light dark;--bg:#f3f4f6;--panel:#fff;--text:#111827;--muted:#6b7280;--border:#d1d5db;--praha:#0ea5e9;--ostrava:#2563eb}
+    @media(prefers-color-scheme:dark){:root{--bg:#0b1020;--panel:#111827;--text:#f9fafb;--muted:#9ca3af;--border:#374151}}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;background:var(--bg);color:var(--text);display:grid;place-items:center;padding:calc(24px + env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom))}.launcher{width:min(100%,720px)}h1{font-size:2rem;margin:0 0 8px;text-align:center}.subtitle{margin:0 0 28px;text-align:center;color:var(--muted);font-size:1rem}.city-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.city-btn{min-height:260px;border-radius:28px;text-decoration:none;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-size:1.65rem;font-weight:800;box-shadow:0 14px 30px rgba(0,0,0,.16);transition:transform .12s ease,filter .12s ease}.city-btn:active{transform:scale(.985)}.city-btn.praha{background:var(--praha)}.city-btn.ostrava{background:var(--ostrava)}.city-icon{font-size:4.5rem;line-height:1}.city-sub{font-size:.9rem;font-weight:600;opacity:.9}@media(max-width:620px){.city-grid{grid-template-columns:1fr}.city-btn{min-height:210px}h1{font-size:1.7rem}}
+  </style>
 </head>
 <body>
-  <main class="app-shell">
-    <header class="hero"><h1>Pražská doprava</h1><div id="lineBadge" class="line-badge">A</div></header>
-
-    <section class="panel mode-panel" aria-label="Dopravní prostředek">
-      <div class="mode-picker">
-        <button class="mode-btn active" data-mode="metro" type="button" aria-label="Metro">
-          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="currentColor"/><path d="M19 43V20h7l6 10 6-10h7v23h-7V31l-6 10-6-10v12z" fill="white"/></svg><span>Metro</span>
-        </button>
-        <button class="mode-btn" data-mode="tram" type="button" aria-label="Tramvaj">
-          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M19 7h26v5H35v5h8c5 0 8 3 8 8v20c0 5-3 8-8 8l5 5h-7l-5-5h-8l-5 5h-7l5-5c-5 0-8-3-8-8V25c0-5 3-8 8-8h8v-5H19zm1 18v12h24V25zm4 18a4 4 0 1 0 0 8 4 4 0 0 0 0-8m16 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8" fill="currentColor"/></svg><span>Tramvaj</span>
-        </button>
-        <button class="mode-btn" data-mode="bus" type="button" aria-label="Autobus">
-          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 9h32c5 0 8 4 8 9v28c0 4-3 7-7 7h-1v5h-7v-5H23v5h-7v-5h-1c-4 0-7-3-7-7V18c0-5 3-9 8-9m0 8v17h32V17zm3 24a4 4 0 1 0 0 8 4 4 0 0 0 0-8m26 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8" fill="currentColor"/></svg><span>Autobus</span>
-        </button>
-      </div>
-    </section>
-
-    <section class="panel controls"><label>Linka<select id="lineSelect"></select></label><label>Směr<select id="directionSelect"></select></label><label id="stopLabel">Stanice<select id="stationSelect"></select></label></section>
-
-    <section class="panel announcement-panel">
-      <p id="announcementText" class="announcement"></p>
-      <label class="auto-next"><span>Automaticky další zastávka</span><span class="ios-switch"><input id="autoNext" type="checkbox" role="switch" aria-label="Automaticky další zastávka"/><span class="ios-slider" aria-hidden="true"></span></span></label>
-      <div class="play-zone"><button id="playBtn" class="primary play-main">Spustit hlášení</button></div>
-      <div class="nav-row"><button id="prevBtn" class="secondary">Předchozí</button><button id="nextBtn" class="secondary">Další</button></div>
-      <span id="audioMode" hidden></span><p id="status" hidden></p><div id="sequence" hidden></div>
-    </section>
-
-    <section class="panel"><div class="panel-head"><span>Trasa</span><span id="stationCount" class="chip"></span></div><div id="routeList" class="route-list"></div></section>
-  </main><script src="app.js"></script>
-</body></html>
+  <main class="launcher">
+    <h1>MHD hlášení</h1>
+    <p class="subtitle">Vyberte město</p>
+    <div class="city-grid">
+      <a class="city-btn praha" href="praha/" aria-label="Spustit MHD Praha">
+        <span class="city-icon" aria-hidden="true">🚇</span>
+        <span>MHD Praha</span>
+        <span class="city-sub">Metro · Tramvaje · Autobusy</span>
+      </a>
+      <a class="city-btn ostrava" href="ostrava/" aria-label="Spustit MHD Ostrava">
+        <span class="city-icon" aria-hidden="true">🚋</span>
+        <span>MHD Ostrava</span>
+        <span class="city-sub">Tramvaje · Trolejbusy · Autobusy</span>
+      </a>
+    </div>
+  </main>
+  <script>if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));</script>
+</body>
+</html>
