@@ -1,0 +1,56 @@
+name: Validate Ostrava tram parser
+
+on:
+  push:
+    branches:
+      - ostrava-data-pipeline
+    paths:
+      - 'ostrava/**'
+      - '.github/workflows/validate-ostrava-trams.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: ostrava/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r ostrava/requirements.txt
+
+      - name: Parse DPO tram timetables
+        run: |
+          python ostrava/dpo_tram_parser.py \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-tram-data.json \
+            --report ostrava/tram-parser-report.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Show QA report
+        if: always()
+        run: |
+          echo '--- QA report ---'
+          cat ostrava/tram-parser-report.json || true
+
+      - name: Upload parser outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ostrava-tram-parser-output
+          path: |
+            ostrava/ostrava-tram-data.json
+            ostrava/tram-parser-report.json
+            ostrava/debug/
+          if-no-files-found: warn

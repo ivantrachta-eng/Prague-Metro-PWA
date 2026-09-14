@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "problems": [],
+  "lineCounts": {
+    "tram": 16,
+    "trolleybus": 12,
+    "bus": 56
+  },
+  "variantLines": {
+    "tram": [
+      "5"
+    ],
+    "trolleybus": [],
+    "bus": [
+      "24",
+      "31",
+      "54",
+      "62",
+      "72",
+      "73",
+      "79",
+      "92",
+      "96",
+      "97",
+      "99"
+    ]
+  }
+}

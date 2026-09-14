@@ -1,0 +1,418 @@
+[
+  {
+    "ok": true,
+    "line": "1",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      22
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Dubina"
+      },
+      {
+        "from": "Dubina",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/001_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "2",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Výškovice"
+      },
+      {
+        "from": "Výškovice",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/002_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "3",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      25
+    ],
+    "endpoints": [
+      {
+        "from": "Dubina",
+        "to": "Poruba,vozovna"
+      },
+      {
+        "from": "Poruba,vozovna",
+        "to": "Dubina"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/003_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "4",
+    "sequence_count": 2,
+    "stop_counts": [
+      27,
+      28
+    ],
+    "endpoints": [
+      {
+        "from": "Nová huť již.brána",
+        "to": "Martinov"
+      },
+      {
+        "from": "Martinov",
+        "to": "Nová huť již.brána"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/004_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "5",
+    "sequence_count": 2,
+    "stop_counts": [
+      15,
+      14
+    ],
+    "endpoints": [
+      {
+        "from": "VŠB-TUO",
+        "to": "Budišovice,Zátiší"
+      },
+      {
+        "from": "Budišovice,Zátiší",
+        "to": "Poruba,vozovna"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names",
+      "no exact reverse endpoint pair; treated as route variants"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/005_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "7",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Výškovice",
+        "to": "Poruba,Vřesinská"
+      },
+      {
+        "from": "Poruba,Vřesinská",
+        "to": "Výškovice"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/007_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "8",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      25
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Poruba,Vřesinská"
+      },
+      {
+        "from": "Poruba,Vřesinská",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/008_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "10",
+    "sequence_count": 2,
+    "stop_counts": [
+      14,
+      14
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Dubina"
+      },
+      {
+        "from": "Dubina",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/010_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "11",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      22
+    ],
+    "endpoints": [
+      {
+        "from": "Zábřeh",
+        "to": "Poruba,vozovna"
+      },
+      {
+        "from": "Poruba,vozovna",
+        "to": "Zábřeh"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/011_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "12",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Dubina"
+      },
+      {
+        "from": "Dubina",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/012_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "13",
+    "sequence_count": 2,
+    "stop_counts": [
+      18,
+      18
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Zábřeh"
+      },
+      {
+        "from": "Zábřeh",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/013_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "14",
+    "sequence_count": 2,
+    "stop_counts": [
+      14,
+      14
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Nová huť již.brána"
+      },
+      {
+        "from": "Nová huť již.brána",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/014_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "15",
+    "sequence_count": 2,
+    "stop_counts": [
+      15,
+      15
+    ],
+    "endpoints": [
+      {
+        "from": "Dubina",
+        "to": "Výškovice"
+      },
+      {
+        "from": "Výškovice",
+        "to": "Dubina"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/015_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "17",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      22
+    ],
+    "endpoints": [
+      {
+        "from": "Dubina",
+        "to": "Poruba,Vřesinská"
+      },
+      {
+        "from": "Poruba,Vřesinská",
+        "to": "Dubina"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/017_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "18",
+    "sequence_count": 2,
+    "stop_counts": [
+      27,
+      28
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Dubina"
+      },
+      {
+        "from": "Dubina",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/018_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "19",
+    "sequence_count": 2,
+    "stop_counts": [
+      26,
+      27
+    ],
+    "endpoints": [
+      {
+        "from": "Dubina",
+        "to": "Martinov"
+      },
+      {
+        "from": "Martinov",
+        "to": "Dubina"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/019_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "ND1",
+    "sequence_count": 2,
+    "stop_counts": [
+      10,
+      9
+    ],
+    "endpoints": [
+      {
+        "from": "Karolina",
+        "to": "Hrabůvka,kostel"
+      },
+      {
+        "from": "Hrabůvka,kostel",
+        "to": "Karolina"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/ND1_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "ND2",
+    "sequence_count": 1,
+    "stop_counts": [
+      5
+    ],
+    "endpoints": [
+      {
+        "from": "Vítkovice,Mírové nám.",
+        "to": "Vítkovice,Mírové nám."
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 unusually short (5 stops)",
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/ND2_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  }
+]

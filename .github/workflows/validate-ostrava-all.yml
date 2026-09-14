@@ -1,0 +1,112 @@
+name: Validate Ostrava DPO transit parser
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ostrava-data-pipeline
+    paths:
+      - 'ostrava/dpo_transit_parser.py'
+      - 'ostrava/finalize_transit_data.py'
+      - 'ostrava/requirements.txt'
+      - '.github/workflows/validate-ostrava-all.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: ostrava/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r ostrava/requirements.txt
+
+      - name: Parse tram timetables
+        run: |
+          python ostrava/dpo_transit_parser.py \
+            --mode tram \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-tram-data-v2.json \
+            --report ostrava/tram-report-v2.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Parse trolleybus timetables
+        run: |
+          python ostrava/dpo_transit_parser.py \
+            --mode trolleybus \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-trolleybus-data.json \
+            --report ostrava/trolleybus-report.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Parse bus timetables
+        continue-on-error: true
+        run: |
+          python ostrava/dpo_transit_parser.py \
+            --mode bus \
+            --effective-date 2026-09-17 \
+            --output ostrava/ostrava-bus-data.json \
+            --report ostrava/bus-report.json \
+            --cache-dir ostrava/.cache/dpo-pdf \
+            --debug-dir ostrava/debug
+
+      - name: Finalize and validate combined data
+        run: python ostrava/finalize_transit_data.py
+
+      - name: Summarize QA
+        run: |
+          echo '--- final validation ---'
+          cat ostrava/final-validation.json
+          echo '--- tram report ---'
+          cat ostrava/tram-report-v2.json
+          echo '--- trolleybus report ---'
+          cat ostrava/trolleybus-report.json
+          echo '--- bus report ---'
+          cat ostrava/bus-report.json
+
+      - name: Persist validated data on branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            ostrava/ostrava-transit-data.json \
+            ostrava/ostrava-tram-data-v2.json \
+            ostrava/ostrava-trolleybus-data.json \
+            ostrava/ostrava-bus-data.json \
+            ostrava/final-validation.json \
+            ostrava/tram-report-v2.json \
+            ostrava/trolleybus-report.json \
+            ostrava/bus-report.json
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update validated Ostrava DPO transit data"
+            git push origin HEAD:ostrava-data-pipeline
+          fi
+
+      - name: Upload parser outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ostrava-all-transit-output
+          path: |
+            ostrava/ostrava-transit-data.json
+            ostrava/ostrava-tram-data-v2.json
+            ostrava/ostrava-trolleybus-data.json
+            ostrava/ostrava-bus-data.json
+            ostrava/final-validation.json
+            ostrava/tram-report-v2.json
+            ostrava/trolleybus-report.json
+            ostrava/bus-report.json
+            ostrava/debug/
