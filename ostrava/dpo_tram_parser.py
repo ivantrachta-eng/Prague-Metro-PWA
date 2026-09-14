@@ -10,21 +10,17 @@ import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
 from urllib.parse import urljoin
 
-import fitz
+import pymupdf
 import requests
 from bs4 import BeautifulSoup
 
 INDEX_URL = "https://www.dpo.cz/jizdni-rady/jr-tram.html"
-UA = "Mozilla/5.0 (compatible; DPO timetable parser/1.0)"
+UA = "Mozilla/5.0 (compatible; DPO timetable parser/2.0)"
 ICON_CHARS = set("")
-NOISE_WORDS = {
-    "zóna", "zona", "název", "nazev", "zastávky", "zastavky", "min",
-    "platí", "plati", "od", "www.dpo.cz", "upraveno", "pracovní", "pracovni",
-    "den", "sobota+neděle", "celý", "cely", "týden", "tyden", "poznámky", "poznamky",
-}
+DAY_LABELS = {"pracovni den", "sobota+nedele", "cely tyden"}
+
 
 @dataclass
 class Schedule:
@@ -37,26 +33,16 @@ class Schedule:
 def clean_space(s: str) -> str:
     s = s.replace("\xa0", " ")
     s = "".join(ch for ch in s if ch not in ICON_CHARS)
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s).strip()
+    # DPO PDFs sometimes expose a standalone OCR marker "O" after a stop name.
+    s = re.sub(r"\s+O$", "", s)
+    return s
 
 
 def fold(s: str) -> str:
     s = unicodedata.normalize("NFKD", s)
     s = "".join(ch for ch in s if not unicodedata.combining(ch))
     return s.casefold()
-
-
-def is_noise(s: str) -> bool:
-    f = fold(clean_space(s))
-    if not f or f in NOISE_WORDS:
-        return True
-    if re.fullmatch(r"[\d\s\-–—./:+]+", f):
-        return True
-    if f.startswith("plati od ") or f.startswith("www.dpo.cz") or f.startswith("upraveno"):
-        return True
-    if "bezbarier" in f or "prestup na zeleznicni" in f:
-        return True
-    return False
 
 
 def parse_date_cz(s: str) -> dt.date | None:
@@ -78,10 +64,10 @@ def fetch_index(session: requests.Session) -> list[Schedule]:
         if not re.fullmatch(r"\d{1,3}", line):
             continue
 
-        texts = []
+        texts: list[str] = []
         pdf_href = None
         node = heading
-        for _ in range(12):
+        for _ in range(16):
             node = node.find_next()
             if node is None:
                 break
@@ -94,7 +80,7 @@ def fetch_index(session: requests.Session) -> list[Schedule]:
                 texts.append(txt)
             if node.name == "a":
                 href = node.get("href")
-                if href and href.lower().endswith(".pdf"):
+                if href and re.search(r"\.pdf(?:$|\?)", href, re.I):
                     pdf_href = href
                     break
 
@@ -152,178 +138,128 @@ def download_pdf(session: requests.Session, s: Schedule, cache_dir: Path) -> Pat
     return p
 
 
-def _words_by_lines(page: fitz.Page):
-    rows = defaultdict(list)
-    for w in page.get_text("words"):
-        rows[(w[5], w[6])].append(w)
-    packed = []
-    for ws in rows.values():
-        ws.sort(key=lambda w: w[0])
-        text = clean_space(" ".join(w[4] for w in ws))
-        packed.append((min(w[1] for w in ws), min(w[0] for w in ws), max(w[2] for w in ws), max(w[3] for w in ws), text, ws))
-    packed.sort(key=lambda r: (r[0], r[1]))
-    return packed
+def looks_like_stop(text: str) -> bool:
+    f = fold(text)
+    if not text or not re.search(r"[A-Za-zÁ-ž]", text):
+        return False
+    if f in {"zona", "nazev zastavky", "min", "poznamky"} | DAY_LABELS:
+        return False
+    if f.startswith("plati od") or f.startswith("www.dpo.cz") or f.startswith("upraveno"):
+        return False
+    if f.startswith("bezbarier") or f.startswith("prestup na zeleznicni"):
+        return False
+    if re.fullmatch(r"[A-Z]{1,4}(?:\s+[A-Z]{1,4})*", text):
+        return False
+    return True
 
 
-def _extract_stop_columns(page: fitz.Page) -> list[list[str]]:
-    words = page.get_text("words")
-    if not words:
-        return []
+def extract_sequences_from_text(text: str, line: str) -> list[list[str]]:
+    """
+    DPO's PDF text layer is more reliable for stop names than spatial word coordinates.
+    A route table contains a standalone line number followed by consecutive stop-name
+    rows; the first minute/travel-time row marks the end of the stop list.
+    """
+    rows = text.splitlines()
+    sequences: list[list[str]] = []
 
-    headers = []
-    for w in words:
-        if fold(w[4]) == "nazev":
-            neighbors = [q for q in words if abs(q[1] - w[1]) < 5 and 0 < q[0] - w[0] < 140]
-            if any(fold(q[4]).startswith("zastav") for q in neighbors):
-                headers.append((w[0], w[1], w[2]))
-
-    if not headers:
-        for y0, x0, x1, y1, text, _ in _words_by_lines(page):
-            if "nazev zastavky" in fold(text):
-                headers.append((x0, y0, x1))
-
-    columns = []
-    page_width = page.rect.width
-
-    for hx0, hy, _ in headers:
-        left = max(0, hx0 - 15)
-        right = min(page_width, hx0 + 230)
-        candidates = [w for w in words if w[1] > hy + 8 and left <= w[0] <= right and clean_space(w[4])]
-        if not candidates:
+    for i, raw in enumerate(rows):
+        if raw.strip() != line:
             continue
-
-        candidates.sort(key=lambda w: (w[1], w[0]))
-        by_y = []
-        current = []
-        cy = None
-        for w in candidates:
-            if cy is None or abs(w[1] - cy) <= 3.0:
-                current.append(w)
-                cy = w[1] if cy is None else (cy + w[1]) / 2
-            else:
-                by_y.append(current)
-                current = [w]
-                cy = w[1]
-        if current:
-            by_y.append(current)
-
-        stops = []
-        for row in by_y:
-            row.sort(key=lambda w: w[0])
-            text = clean_space(" ".join(w[4] for w in row))
-            if re.search(r"plat[ií]\s+od", text, re.I):
+        seq: list[str] = []
+        for raw2 in rows[i + 1:]:
+            t = clean_space(raw2)
+            if not t:
+                continue
+            # First travel-time row after the stop block.
+            if re.fullmatch(r"\d+(?:-\d+)?", t):
                 break
-            if is_noise(text):
-                continue
-            f = fold(text)
-            if re.fullmatch(r"\d{1,3}", text):
-                continue
-            if f.startswith("poznam"):
+            if re.match(r"(?i)^plat[ií]\s+od", t):
                 break
-            if any(x in f for x in ("pracovni den", "sobota", "nedele", "cely tyden")):
-                continue
-            if len(text) >= 2:
-                stops.append(text)
+            if looks_like_stop(t):
+                seq.append(t)
+        # Suppress false hits where the same route number appears in timetable grids.
+        if len(seq) >= 5:
+            sequences.append(seq)
 
-        merged = []
-        i = 0
-        while i < len(stops):
-            cur = stops[i]
-            if i + 1 < len(stops):
-                nxt = stops[i + 1]
-                if (cur.endswith(".") or len(cur) <= 12) and len(nxt) <= 20 and not any(ch.isdigit() for ch in nxt) and nxt[:1].isupper():
-                    cur = f"{cur} {nxt}"
-                    i += 1
-            merged.append(cur)
-            i += 1
-
-        if len(merged) >= 3:
-            columns.append(merged)
-    return columns
+    return sequences
 
 
 def normalize_sequence(seq: list[str]) -> list[str]:
-    out = []
+    out: list[str] = []
     for s in seq:
         s = clean_space(s)
-        s = re.sub(r"^[A-Z]\s*-\s*", "", s)
-        s = re.sub(r"\s+[A-Z]$", "", s)
-        if is_noise(s):
+        if not looks_like_stop(s):
             continue
         if out and fold(out[-1]) == fold(s):
+            # Keep consecutive duplicate stops only when the PDF explicitly has them
+            # as different platforms/variants; for navigation data they are redundant.
             continue
         out.append(s)
     return out
 
 
-def dedupe_sequences(sequences: Iterable[list[str]]) -> list[list[str]]:
-    unique = []
+def dedupe_sequences(sequences: list[list[str]]) -> list[list[str]]:
+    unique: list[list[str]] = []
     seen = set()
     for seq in sequences:
         seq = normalize_sequence(seq)
-        if len(seq) < 3:
+        if len(seq) < 5:
             continue
         key = tuple(fold(x) for x in seq)
         if key not in seen:
             seen.add(key)
             unique.append(seq)
-
-    keep = []
-    keys = [tuple(fold(x) for x in s) for s in unique]
-    for i, seq in enumerate(unique):
-        k = keys[i]
-        subset = False
-        for j, other in enumerate(keys):
-            if i == j or len(other) <= len(k):
-                continue
-            if any(other[start:start + len(k)] == k for start in range(len(other) - len(k) + 1)):
-                subset = True
-                break
-        if not subset:
-            keep.append(seq)
-    return keep
+    return unique
 
 
-def parse_pdf(pdf_path: Path, debug_path: Path | None = None) -> list[list[str]]:
-    doc = fitz.open(pdf_path)
-    sequences = []
+def parse_pdf(pdf_path: Path, line: str, debug_path: Path | None = None) -> list[list[str]]:
+    doc = pymupdf.open(pdf_path)
+    raw_sequences: list[list[str]] = []
     debug = []
+
     for pno, page in enumerate(doc):
-        cols = _extract_stop_columns(page)
-        sequences.extend(cols)
+        plain = page.get_text("text")
+        page_sequences = extract_sequences_from_text(plain, line)
+        raw_sequences.extend(page_sequences)
         if debug_path is not None:
-            debug.append({"page": pno + 1, "plain_text": page.get_text("text"), "candidate_columns": cols})
-    sequences = dedupe_sequences(sequences)
+            debug.append({
+                "page": pno + 1,
+                "plain_text": plain,
+                "candidate_sequences": page_sequences,
+            })
+
+    sequences = dedupe_sequences(raw_sequences)
     if debug_path is not None:
         debug_path.parent.mkdir(parents=True, exist_ok=True)
         debug_path.write_text(json.dumps(debug, ensure_ascii=False, indent=2), encoding="utf-8")
     return sequences
 
 
-def endpoints_from_label(label: str) -> list[str]:
-    if not label:
-        return []
-    return [clean_space(p) for p in re.split(r"\s+[–-]\s+|\s+/\s+", label) if clean_space(p)]
-
-
-def validate(line: str, route_label: str, sequences: list[list[str]]) -> dict:
+def validate(line: str, sequences: list[list[str]]) -> dict:
     warnings = []
     if not sequences:
         warnings.append("no stop sequences extracted")
+    if len(sequences) < 2:
+        warnings.append("only one route direction/variant extracted")
     for i, s in enumerate(sequences):
-        if len(s) < 5:
-            warnings.append(f"sequence {i+1} suspiciously short ({len(s)} stops)")
-    expected = endpoints_from_label(route_label)
-    observed_ends = {fold(s[0]) for s in sequences if s} | {fold(s[-1]) for s in sequences if s}
-    unmatched = [e for e in expected if fold(e) not in observed_ends]
-    if unmatched:
-        warnings.append("route-label endpoints not seen at extracted sequence ends: " + ", ".join(unmatched))
+        if len(s) < 8:
+            warnings.append(f"sequence {i+1} unusually short ({len(s)} stops)")
+        if len(s) != len(set(map(fold, s))):
+            warnings.append(f"sequence {i+1} contains duplicate stop names")
+
+    # Typical bidirectional lines should have at least one reverse endpoint pairing.
+    endpoints = {(fold(s[0]), fold(s[-1])) for s in sequences if s}
+    reverse_pair = any((b, a) in endpoints for a, b in endpoints)
+    if len(sequences) >= 2 and not reverse_pair:
+        warnings.append("no exact reverse endpoint pair; may be a branched/variant route")
+
+    fatal = not sequences or any(len(s) < 5 for s in sequences)
     return {
-        "ok": bool(sequences) and not any("no stop" in w for w in warnings),
+        "ok": not fatal,
         "line": line,
-        "route_label": route_label,
         "sequence_count": len(sequences),
         "stop_counts": [len(s) for s in sequences],
+        "endpoints": [{"from": s[0], "to": s[-1]} for s in sequences],
         "warnings": warnings,
     }
 
@@ -341,7 +277,6 @@ def main() -> int:
     eff = dt.date.fromisoformat(args.effective_date) if args.effective_date else None
     session = requests.Session()
     session.headers.update({"User-Agent": UA})
-
     schedules = fetch_index(session)
     if not schedules:
         raise SystemExit("No DPO tram timetables found on index page.")
@@ -360,22 +295,23 @@ def main() -> int:
         try:
             pdf = download_pdf(session, s, Path(args.cache_dir))
             dbg = Path(args.debug_dir) / f"line-{s.line}.json" if args.debug_dir else None
-            seqs = parse_pdf(pdf, dbg)
+            seqs = parse_pdf(pdf, s.line, dbg)
             data["tram"][s.line] = {
                 "validFrom": s.valid_from.isoformat(),
                 "routeLabel": s.route_label,
                 "sourcePdf": s.pdf_url,
                 "directions": [{"from": seq[0], "to": seq[-1], "stops": seq} for seq in seqs],
             }
-            v = validate(s.line, s.route_label, seqs)
+            v = validate(s.line, seqs)
             v.update({"sourcePdf": s.pdf_url, "validFrom": s.valid_from.isoformat()})
             report.append(v)
             print(f"{s.line:>3}: {len(seqs)} sequence(s), {[len(x) for x in seqs]} stops {'OK' if v['ok'] else 'FAIL'}")
+            for warning in v["warnings"]:
+                print(f"     warning: {warning}")
         except Exception as e:
             report.append({
                 "ok": False,
                 "line": s.line,
-                "route_label": s.route_label,
                 "validFrom": s.valid_from.isoformat(),
                 "sourcePdf": s.pdf_url,
                 "error": repr(e),
