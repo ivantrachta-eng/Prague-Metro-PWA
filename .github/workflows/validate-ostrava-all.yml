@@ -11,6 +11,9 @@ on:
       - 'ostrava/requirements.txt'
       - '.github/workflows/validate-ostrava-all.yml'
 
+permissions:
+  contents: write
+
 jobs:
   validate:
     runs-on: ubuntu-24.04
@@ -72,6 +75,26 @@ jobs:
           cat ostrava/trolleybus-report.json
           echo '--- bus report ---'
           cat ostrava/bus-report.json
+
+      - name: Persist validated data on branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            ostrava/ostrava-transit-data.json \
+            ostrava/ostrava-tram-data-v2.json \
+            ostrava/ostrava-trolleybus-data.json \
+            ostrava/ostrava-bus-data.json \
+            ostrava/final-validation.json \
+            ostrava/tram-report-v2.json \
+            ostrava/trolleybus-report.json \
+            ostrava/bus-report.json
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update validated Ostrava DPO transit data"
+            git push origin HEAD:ostrava-data-pipeline
+          fi
 
       - name: Upload parser outputs
         uses: actions/upload-artifact@v4
