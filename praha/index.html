@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MHD Praha" />
+  <base href="../" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>MHD Praha – hlášení</title>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero"><h1>Pražská doprava</h1><div id="lineBadge" class="line-badge">A</div></header>
+    <a href="./" style="display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:.9rem;margin-top:-8px">← Změnit město</a>
+
+    <section class="panel mode-panel" aria-label="Dopravní prostředek">
+      <div class="mode-picker">
+        <button class="mode-btn active" data-mode="metro" type="button" aria-label="Metro">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="currentColor"/><path d="M19 43V20h7l6 10 6-10h7v23h-7V31l-6 10-6-10v12z" fill="white"/></svg><span>Metro</span>
+        </button>
+        <button class="mode-btn" data-mode="tram" type="button" aria-label="Tramvaj">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M19 7h26v5H35v5h8c5 0 8 3 8 8v20c0 5-3 8-8 8l5 5h-7l-5-5h-8l-5 5h-7l5-5c-5 0-8-3-8-8V25c0-5 3-8 8-8h8v-5H19zm1 18v12h24V25zm4 18a4 4 0 1 0 0 8 4 4 0 0 0 0-8m16 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8" fill="currentColor"/></svg><span>Tramvaj</span>
+        </button>
+        <button class="mode-btn" data-mode="bus" type="button" aria-label="Autobus">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 9h32c5 0 8 4 8 9v28c0 4-3 7-7 7h-1v5h-7v-5H23v5h-7v-5h-1c-4 0-7-3-7-7V18c0-5 3-9 8-9m0 8v17h32V17zm3 24a4 4 0 1 0 0 8 4 4 0 0 0 0-8m26 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8" fill="currentColor"/></svg><span>Autobus</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel controls"><label>Linka<select id="lineSelect"></select></label><label>Směr<select id="directionSelect"></select></label><label id="stopLabel">Stanice<select id="stationSelect"></select></label></section>
+
+    <section class="panel announcement-panel">
+      <p id="announcementText" class="announcement"></p>
+      <label class="auto-next"><span>Automaticky další zastávka</span><span class="ios-switch"><input id="autoNext" type="checkbox" role="switch" aria-label="Automaticky další zastávka"/><span class="ios-slider" aria-hidden="true"></span></span></label>
+      <div class="play-zone"><button id="playBtn" class="primary play-main">Spustit hlášení</button></div>
+      <div class="nav-row"><button id="prevBtn" class="secondary">Předchozí</button><button id="nextBtn" class="secondary">Další</button></div>
+      <span id="audioMode" hidden></span><p id="status" hidden></p><div id="sequence" hidden></div>
+    </section>
+
+    <section class="panel"><div class="panel-head"><span>Trasa</span><span id="stationCount" class="chip"></span></div><div id="routeList" class="route-list"></div></section>
+  </main><script src="app.js"></script>
+</body></html>
