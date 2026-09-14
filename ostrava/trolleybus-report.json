@@ -1,0 +1,281 @@
+[
+  {
+    "ok": true,
+    "line": "101",
+    "sequence_count": 2,
+    "stop_counts": [
+      18,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Radvanice,Ludvíkova"
+      },
+      {
+        "from": "Radvanice,Ludvíkova",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/101_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "102",
+    "sequence_count": 2,
+    "stop_counts": [
+      19,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Hulváky"
+      },
+      {
+        "from": "Hulváky",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/102_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "103",
+    "sequence_count": 2,
+    "stop_counts": [
+      15,
+      14
+    ],
+    "endpoints": [
+      {
+        "from": "Koblov",
+        "to": "Náměstí Republiky"
+      },
+      {
+        "from": "Náměstí Republiky",
+        "to": "Koblov"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/103_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "104",
+    "sequence_count": 2,
+    "stop_counts": [
+      15,
+      14
+    ],
+    "endpoints": [
+      {
+        "from": "Michálkovice",
+        "to": "Náměstí Republiky"
+      },
+      {
+        "from": "Náměstí Republiky",
+        "to": "Michálkovice"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/104_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "105",
+    "sequence_count": 2,
+    "stop_counts": [
+      13,
+      13
+    ],
+    "endpoints": [
+      {
+        "from": "Koblov",
+        "to": "Karolina U Lávky"
+      },
+      {
+        "from": "Karolina U Lávky",
+        "to": "Koblov"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/105_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "106",
+    "sequence_count": 2,
+    "stop_counts": [
+      19,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Důl Heřmanice",
+        "to": "Hlavní nádraží"
+      },
+      {
+        "from": "Hlavní nádraží",
+        "to": "Důl Heřmanice"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/106_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "107",
+    "sequence_count": 2,
+    "stop_counts": [
+      20,
+      21
+    ],
+    "endpoints": [
+      {
+        "from": "Bartovice,Ještěrka",
+        "to": "Sídliště Fifejdy"
+      },
+      {
+        "from": "Sídliště Fifejdy",
+        "to": "Bartovice,Ještěrka"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/107_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "108",
+    "sequence_count": 2,
+    "stop_counts": [
+      27,
+      27
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Hulváky"
+      },
+      {
+        "from": "Hulváky",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/108_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "109",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Důl Heřmanice",
+        "to": "Hulváky"
+      },
+      {
+        "from": "Hulváky",
+        "to": "Důl Heřmanice"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/109_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "111",
+    "sequence_count": 2,
+    "stop_counts": [
+      17,
+      17
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Michálkovice"
+      },
+      {
+        "from": "Michálkovice",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/111_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "112",
+    "sequence_count": 2,
+    "stop_counts": [
+      27,
+      27
+    ],
+    "endpoints": [
+      {
+        "from": "Hlavní nádraží",
+        "to": "Hulváky"
+      },
+      {
+        "from": "Hulváky",
+        "to": "Hlavní nádraží"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/112_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "113",
+    "sequence_count": 2,
+    "stop_counts": [
+      31,
+      31
+    ],
+    "endpoints": [
+      {
+        "from": "Michálkovice",
+        "to": "Koblov"
+      },
+      {
+        "from": "Koblov",
+        "to": "Michálkovice"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names",
+      "sequence 2 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/113_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  }
+]

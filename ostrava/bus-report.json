@@ -1,0 +1,1306 @@
+[
+  {
+    "ok": true,
+    "line": "21",
+    "sequence_count": 2,
+    "stop_counts": [
+      19,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Vratimov,Horní Datyně"
+      },
+      {
+        "from": "Vratimov,Horní Datyně",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/021_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "22",
+    "sequence_count": 2,
+    "stop_counts": [
+      27,
+      27
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Důl Heřmanice"
+      },
+      {
+        "from": "Důl Heřmanice",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names",
+      "sequence 2 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/022_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "23",
+    "sequence_count": 2,
+    "stop_counts": [
+      20,
+      20
+    ],
+    "endpoints": [
+      {
+        "from": "Bohumín,Záblatí,střed",
+        "to": "Hranečník"
+      },
+      {
+        "from": "Hranečník",
+        "to": "Bohumín,Záblatí,střed"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/023_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "24",
+    "sequence_count": 2,
+    "stop_counts": [
+      16,
+      15
+    ],
+    "endpoints": [
+      {
+        "from": "Muglinovská",
+        "to": "Mariánské Hory"
+      },
+      {
+        "from": "Mariánské Hory",
+        "to": "Sad B.Němcové"
+      }
+    ],
+    "warnings": [
+      "no exact reverse endpoint pair; treated as route variants"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/024_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "25",
+    "sequence_count": 2,
+    "stop_counts": [
+      30,
+      31
+    ],
+    "endpoints": [
+      {
+        "from": "Náměstí Republiky",
+        "to": "Vratimov,Horní Datyně"
+      },
+      {
+        "from": "Vratimov,Horní Datyně",
+        "to": "Náměstí Republiky"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/025_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "26",
+    "sequence_count": 2,
+    "stop_counts": [
+      10,
+      11
+    ],
+    "endpoints": [
+      {
+        "from": "Dubina",
+        "to": "Proskovice"
+      },
+      {
+        "from": "Proskovice",
+        "to": "Dubina"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/026_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "27",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Hrabová,statek",
+        "to": "Proskovice"
+      },
+      {
+        "from": "Proskovice",
+        "to": "Hrabová,statek"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/027_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "28",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      20
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Václavovice,točna"
+      },
+      {
+        "from": "Václavovice,točna",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names",
+      "sequence 2 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/028_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "29",
+    "sequence_count": 2,
+    "stop_counts": [
+      9,
+      9
+    ],
+    "endpoints": [
+      {
+        "from": "Šenov,náměstí",
+        "to": "Hranečník"
+      },
+      {
+        "from": "Hranečník",
+        "to": "Šenov,náměstí"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/029_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "30",
+    "sequence_count": 2,
+    "stop_counts": [
+      11,
+      12
+    ],
+    "endpoints": [
+      {
+        "from": "Petřvald,Březiny",
+        "to": "Hranečník"
+      },
+      {
+        "from": "Hranečník",
+        "to": "Petřvald,Březiny"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/030_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "31",
+    "sequence_count": 3,
+    "stop_counts": [
+      17,
+      16,
+      16
+    ],
+    "endpoints": [
+      {
+        "from": "Nová huť již.brána",
+        "to": "Kotva"
+      },
+      {
+        "from": "Nová huť již.brána",
+        "to": "Výškovice"
+      },
+      {
+        "from": "Výškovice",
+        "to": "Nová huť již.brána"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/031_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "32",
+    "sequence_count": 2,
+    "stop_counts": [
+      7,
+      10
+    ],
+    "endpoints": [
+      {
+        "from": "Outlet centrum",
+        "to": "Křižíkova"
+      },
+      {
+        "from": "Křižíkova",
+        "to": "Outlet centrum"
+      }
+    ],
+    "warnings": [
+      "sequence 1 unusually short (7 stops)",
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/032_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "33",
+    "sequence_count": 2,
+    "stop_counts": [
+      8,
+      9
+    ],
+    "endpoints": [
+      {
+        "from": "Přívoz,Oderská",
+        "to": "Křižíkova"
+      },
+      {
+        "from": "Křižíkova",
+        "to": "Přívoz,Oderská"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/033_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "34",
+    "sequence_count": 2,
+    "stop_counts": [
+      18,
+      20
+    ],
+    "endpoints": [
+      {
+        "from": "Křižíkova",
+        "to": "Hlučín,aut.nádr."
+      },
+      {
+        "from": "Hlučín,aut.nádr.",
+        "to": "Křižíkova"
+      }
+    ],
+    "warnings": [
+      "sequence 2 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/034_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "35",
+    "sequence_count": 2,
+    "stop_counts": [
+      31,
+      31
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,Otakara Jeremiáše",
+        "to": "Hrabová,PZ jih"
+      },
+      {
+        "from": "Hrabová,PZ jih",
+        "to": "Poruba,Otakara Jeremiáše"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/035_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "37",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      26
+    ],
+    "endpoints": [
+      {
+        "from": "Náměstí Republiky",
+        "to": "Poruba,Studentské koleje"
+      },
+      {
+        "from": "Poruba,Studentské koleje",
+        "to": "Náměstí Republiky"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/037_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "38",
+    "sequence_count": 2,
+    "stop_counts": [
+      10,
+      11
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Bartovice,Ještěrka"
+      },
+      {
+        "from": "Bartovice,Ještěrka",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/038_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "39",
+    "sequence_count": 2,
+    "stop_counts": [
+      40,
+      40
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,Otakara Jeremiáše",
+        "to": "Paskov,Folvark"
+      },
+      {
+        "from": "Paskov,Folvark",
+        "to": "Poruba,Otakara Jeremiáše"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/039_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "40",
+    "sequence_count": 2,
+    "stop_counts": [
+      19,
+      17
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,radnice",
+        "to": "Plesná,Globus"
+      },
+      {
+        "from": "Plesná,Globus",
+        "to": "Poruba,radnice"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/040_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "41",
+    "sequence_count": 2,
+    "stop_counts": [
+      26,
+      26
+    ],
+    "endpoints": [
+      {
+        "from": "Vratimov,Kartonážka",
+        "to": "Proskovice"
+      },
+      {
+        "from": "Proskovice",
+        "to": "Vratimov,Kartonážka"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/041_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "43",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,Opavská",
+        "to": "Svinov,mosty"
+      },
+      {
+        "from": "Svinov,mosty",
+        "to": "Poruba,Opavská"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names",
+      "sequence 2 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/043_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "44",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Třebovice,Tesco",
+        "to": "Poruba,Otakara Jeremiáše"
+      },
+      {
+        "from": "Poruba,Otakara Jeremiáše",
+        "to": "Třebovice,Tesco"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/044_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "45",
+    "sequence_count": 2,
+    "stop_counts": [
+      27,
+      26
+    ],
+    "endpoints": [
+      {
+        "from": "Nová huť hl.brána",
+        "to": "Dílny DP Ostrava"
+      },
+      {
+        "from": "Dílny DP Ostrava",
+        "to": "Nová huť hl.brána"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/045_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "46",
+    "sequence_count": 2,
+    "stop_counts": [
+      33,
+      34
+    ],
+    "endpoints": [
+      {
+        "from": "Krásné Pole",
+        "to": "Polanka"
+      },
+      {
+        "from": "Polanka",
+        "to": "Krásné Pole"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/046_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "47",
+    "sequence_count": 2,
+    "stop_counts": [
+      18,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,Studentská",
+        "to": "Plesná"
+      },
+      {
+        "from": "Plesná",
+        "to": "Poruba,Studentská"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/047_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "48",
+    "sequence_count": 2,
+    "stop_counts": [
+      28,
+      28
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,Opavská",
+        "to": "Hrabová,PZ jih"
+      },
+      {
+        "from": "Hrabová,PZ jih",
+        "to": "Poruba,Opavská"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/048_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "49",
+    "sequence_count": 2,
+    "stop_counts": [
+      30,
+      31
+    ],
+    "endpoints": [
+      {
+        "from": "Michálkovice",
+        "to": "Poruba,Opavská"
+      },
+      {
+        "from": "Poruba,Opavská",
+        "to": "Michálkovice"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/049_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "50",
+    "sequence_count": 2,
+    "stop_counts": [
+      24,
+      25
+    ],
+    "endpoints": [
+      {
+        "from": "Porážková",
+        "to": "Nová Bělá,Krmelínská"
+      },
+      {
+        "from": "Nová Bělá,Krmelínská",
+        "to": "Porážková"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-17/050_2026-09-17.pdf",
+    "validFrom": "2026-09-17",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "52",
+    "sequence_count": 2,
+    "stop_counts": [
+      21,
+      21
+    ],
+    "endpoints": [
+      {
+        "from": "Šilheřovice,Paseky",
+        "to": "Křižíkova"
+      },
+      {
+        "from": "Křižíkova",
+        "to": "Šilheřovice,Paseky"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/052_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "54",
+    "sequence_count": 2,
+    "stop_counts": [
+      18,
+      17
+    ],
+    "endpoints": [
+      {
+        "from": "Vozovna trolejbusů",
+        "to": "Poruba,Studentské koleje"
+      },
+      {
+        "from": "Poruba,Studentské koleje",
+        "to": "Sad B.Němcové"
+      }
+    ],
+    "warnings": [
+      "no exact reverse endpoint pair; treated as route variants"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/054_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "55",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      23
+    ],
+    "endpoints": [
+      {
+        "from": "Hrabůvka,Poliklinika",
+        "to": "Výškovice"
+      },
+      {
+        "from": "Výškovice",
+        "to": "Hrabůvka,Poliklinika"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names",
+      "sequence 2 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/055_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "56",
+    "sequence_count": 2,
+    "stop_counts": [
+      19,
+      20
+    ],
+    "endpoints": [
+      {
+        "from": "Hlučín,Darkovičky",
+        "to": "Křižíkova"
+      },
+      {
+        "from": "Křižíkova",
+        "to": "Hlučín,Darkovičky"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/056_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "57",
+    "sequence_count": 2,
+    "stop_counts": [
+      23,
+      23
+    ],
+    "endpoints": [
+      {
+        "from": "Nová huť již.brána",
+        "to": "Hulváky"
+      },
+      {
+        "from": "Hulváky",
+        "to": "Nová huť již.brána"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/057_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "58",
+    "sequence_count": 2,
+    "stop_counts": [
+      22,
+      23
+    ],
+    "endpoints": [
+      {
+        "from": "Plesná",
+        "to": "Poruba,Studentská"
+      },
+      {
+        "from": "Poruba,Studentská",
+        "to": "Plesná"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/058_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "59",
+    "sequence_count": 2,
+    "stop_counts": [
+      37,
+      38
+    ],
+    "endpoints": [
+      {
+        "from": "Vítkovice,Mírové nám.",
+        "to": "Svinov,mosty"
+      },
+      {
+        "from": "Svinov,mosty",
+        "to": "Vítkovice,Mírové nám."
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/059_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "61",
+    "sequence_count": 2,
+    "stop_counts": [
+      16,
+      15
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Výškovice"
+      },
+      {
+        "from": "Výškovice",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/061_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "62",
+    "sequence_count": 2,
+    "stop_counts": [
+      11,
+      10
+    ],
+    "endpoints": [
+      {
+        "from": "Nová huť již.brána",
+        "to": "Sámova"
+      },
+      {
+        "from": "Hrabůvka,Dvouletky",
+        "to": "Nová huť již.brána"
+      }
+    ],
+    "warnings": [
+      "no exact reverse endpoint pair; treated as route variants"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/062_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "64",
+    "sequence_count": 2,
+    "stop_counts": [
+      17,
+      18
+    ],
+    "endpoints": [
+      {
+        "from": "Svinov,mosty",
+        "to": "Klimkovice,Hýlov,Sanatoria"
+      },
+      {
+        "from": "Klimkovice,Hýlov,Sanatoria",
+        "to": "Svinov,mosty"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/064_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "67",
+    "sequence_count": 2,
+    "stop_counts": [
+      16,
+      18
+    ],
+    "endpoints": [
+      {
+        "from": "Hlučín,aut.nádr.",
+        "to": "Křižíkova"
+      },
+      {
+        "from": "Křižíkova",
+        "to": "Hlučín,aut.nádr."
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/067_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "68",
+    "sequence_count": 2,
+    "stop_counts": [
+      20,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Šilheřovice,Paseky",
+        "to": "Křižíkova"
+      },
+      {
+        "from": "Křižíkova",
+        "to": "Šilheřovice,Paseky"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/068_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "71",
+    "sequence_count": 2,
+    "stop_counts": [
+      33,
+      24
+    ],
+    "endpoints": [
+      {
+        "from": "Náměstí Republiky",
+        "to": "Šenov,Volenství"
+      },
+      {
+        "from": "Šenov,Volenství",
+        "to": "Náměstí Republiky"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/071_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "72",
+    "sequence_count": 1,
+    "stop_counts": [
+      5
+    ],
+    "endpoints": [
+      {
+        "from": "Křižíkova",
+        "to": "Žižkova"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 unusually short (5 stops)"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/072_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "73",
+    "sequence_count": 1,
+    "stop_counts": [
+      6
+    ],
+    "endpoints": [
+      {
+        "from": "Hrabová,PZ jih",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 unusually short (6 stops)"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/073_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "74",
+    "sequence_count": 2,
+    "stop_counts": [
+      11,
+      10
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Hrabová,PZ jih"
+      },
+      {
+        "from": "Hrabová,PZ jih",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/074_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "76",
+    "sequence_count": 2,
+    "stop_counts": [
+      25,
+      23
+    ],
+    "endpoints": [
+      {
+        "from": "Svinov,mosty",
+        "to": "Klimkovice,Hýlov,Sanatoria"
+      },
+      {
+        "from": "Klimkovice,Hýlov,Sanatoria",
+        "to": "Svinov,mosty"
+      }
+    ],
+    "warnings": [
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/076_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "77",
+    "sequence_count": 2,
+    "stop_counts": [
+      18,
+      19
+    ],
+    "endpoints": [
+      {
+        "from": "Hrabová,statek",
+        "to": "Výškovice"
+      },
+      {
+        "from": "Výškovice",
+        "to": "Hrabová,statek"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/077_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "78",
+    "sequence_count": 2,
+    "stop_counts": [
+      20,
+      18
+    ],
+    "endpoints": [
+      {
+        "from": "Poruba,Opavská",
+        "to": "Hrabová,PZ jih"
+      },
+      {
+        "from": "Hrabová,PZ jih",
+        "to": "Poruba,Opavská"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/078_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "79",
+    "sequence_count": 1,
+    "stop_counts": [
+      6
+    ],
+    "endpoints": [
+      {
+        "from": "Svinov,nádraží",
+        "to": "Svinov,nádraží"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 unusually short (6 stops)",
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/079_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "81",
+    "sequence_count": 2,
+    "stop_counts": [
+      20,
+      20
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Řepiště,u kříže"
+      },
+      {
+        "from": "Řepiště,u kříže",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/081_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "88",
+    "sequence_count": 2,
+    "stop_counts": [
+      10,
+      10
+    ],
+    "endpoints": [
+      {
+        "from": "Most Pionýrů",
+        "to": "Poruba,Opavská"
+      },
+      {
+        "from": "Poruba,Opavská",
+        "to": "Most Pionýrů"
+      }
+    ],
+    "warnings": [],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/088_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "92",
+    "sequence_count": 1,
+    "stop_counts": [
+      11
+    ],
+    "endpoints": [
+      {
+        "from": "Nádraží Kunčice",
+        "to": "Gymnázium"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/092_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "96",
+    "sequence_count": 1,
+    "stop_counts": [
+      25
+    ],
+    "endpoints": [
+      {
+        "from": "Hrabůvka,Poliklinika",
+        "to": "Hrabůvka,Poliklinika"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/096_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "97",
+    "sequence_count": 1,
+    "stop_counts": [
+      33
+    ],
+    "endpoints": [
+      {
+        "from": "Hranečník",
+        "to": "Hranečník"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/097_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": true,
+    "line": "98",
+    "sequence_count": 2,
+    "stop_counts": [
+      5,
+      5
+    ],
+    "endpoints": [
+      {
+        "from": "Petřkovice,náměstí",
+        "to": "Petřkovice,Nordpól"
+      },
+      {
+        "from": "Petřkovice,Nordpól",
+        "to": "Petřkovice,náměstí"
+      }
+    ],
+    "warnings": [
+      "sequence 1 unusually short (5 stops)",
+      "sequence 2 unusually short (5 stops)"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/098_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": false
+  },
+  {
+    "ok": true,
+    "line": "99",
+    "sequence_count": 1,
+    "stop_counts": [
+      17
+    ],
+    "endpoints": [
+      {
+        "from": "Hladnov",
+        "to": "Hladnov"
+      }
+    ],
+    "warnings": [
+      "only one route direction/variant extracted",
+      "sequence 1 contains duplicate stop names"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-01/099_2026-09-01.pdf",
+    "validFrom": "2026-09-01",
+    "hasVariants": true
+  },
+  {
+    "ok": false,
+    "line": "AE",
+    "sequence_count": 0,
+    "stop_counts": [],
+    "endpoints": [],
+    "warnings": [
+      "no stop sequences extracted",
+      "only one route direction/variant extracted"
+    ],
+    "sourcePdf": "https://www.dpo.cz/jr/2026-09-04/AE.pdf",
+    "validFrom": "2026-09-04",
+    "hasVariants": true
+  }
+]
