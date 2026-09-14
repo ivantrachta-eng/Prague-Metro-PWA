@@ -12,6 +12,77 @@ function stops(){return pattern()?.stops||[]}
 function modeLabel(){return mode==='tram'?'tramvaj':mode==='trolleybus'?'trolejbus':'autobus'}
 function accent(){return mode==='tram'?'#0ea5e9':mode==='trolleybus'?'#7c3aed':'#f97316'}
 
+// DPO timetable PDFs use many compact abbreviations intended for printed tables.
+// Keep the official compact stop label in the UI, but expand it for TTS and
+// the announcement preview so Czech speech synthesis reads natural names.
+const SPOKEN_STOP_EXACT={
+  'Náměstí S.Čecha':'Náměstí Svatopluka Čecha',
+  'Sad B.Němcové':'Sad Boženy Němcové',
+  'Náměstí B.Němcové':'Náměstí Boženy Němcové',
+  'Horn.poliklinika':'Hornická poliklinika',
+  'Most M.Sýkory':'Most Miloše Sýkory',
+  'Nám.J.Gagarina':'Náměstí Jurije Gagarina',
+  'Nám.J.z Poděbrad':'Náměstí Jiřího z Poděbrad',
+  'Náměstí Gen.Svobody':'Náměstí Generála Svobody',
+  'Ředitel.Vítkovic':'Ředitelství Vítkovic',
+  'Telekom.škola':'Telekomunikační škola',
+  'ÚMOb Jih':'Úřad městského obvodu Jih',
+  'VŠB-TUO':'Vysoká škola báňská, Technická univerzita Ostrava',
+  'VŠ podnikání':'Vysoká škola podnikání',
+  'Most Čs. armády':'Most Československé armády',
+  'Dílny DP Ostrava':'Dílny Dopravního podniku Ostrava',
+  'Revírní br. pokladna':'Revírní bratrská pokladna',
+  'Stan.záchr.služby':'Stanice záchranné služby',
+  'Stodolní žel.zastávka':'Stodolní železniční zastávka',
+  'Čistička odp.vod':'Čistička odpadních vod',
+  'Pomník RA':'Pomník Rudé armády',
+  'Nábřeží SPB':'Nábřeží Svazu protifašistických bojovníků',
+  '29.dubna':'Dvacátého devátého dubna',
+  'U Hradu x':'U Hradu'
+};
+
+function spokenStopName(name){
+  if(!name)return'';
+  if(SPOKEN_STOP_EXACT[name])return SPOKEN_STOP_EXACT[name];
+  let s=name;
+  const replacements=[
+    [/\bSl\.Ostrava\b/g,'Slezská Ostrava'],
+    [/\bMor\.Ostrava\b/g,'Moravská Ostrava'],
+    [/\bLudg\./g,'Ludgeřovice'],
+    [/\bKpt\./g,'Kapitána '],
+    [/\bGen\./g,'Generála '],
+    [/\bČs\.\s*/g,'Československé '],
+    [/\bNová huť hl\.brána\b/g,'Nová huť hlavní brána'],
+    [/\bNová huť již\.brána\b/g,'Nová huť jižní brána'],
+    [/\bHor\.Datyně\b/g,'Horní Datyně'],
+    [/\bSpol\.dům\b/g,'Společenský dům'],
+    [/\bChem\.závody\b/g,'Chemické závody'],
+    [/\baut\.nádr\./g,'autobusové nádraží'],
+    [/\bžel\.zast\.\b/g,'železniční zastávka'],
+    [/\bžel\.zastávka\b/g,'železniční zastávka'],
+    [/\bsídl\.\b/g,'sídliště '],
+    [/\bkult\.dům\b/g,'kulturní dům'],
+    [/\bkřiž\.\b/g,'křižovatka'],
+    [/\brozc\.\b/g,'rozcestí'],
+    [/\brest\.\b/g,'restaurace '],
+    [/\bnám\.\b/g,'náměstí'],
+    [/,OC\b/g,', obchodní centrum'],
+    [/,PZ\b/g,', průmyslová zóna'],
+    [/\bPZ\s+(sever|střed|jih|Dubí|Rudná)\b/g,'průmyslová zóna $1'],
+    [/,ZD\b/g,', zemědělské družstvo'],
+    [/,SOU\b/g,', střední odborné učiliště'],
+    [/\bNáměstí SNP\b/g,'Náměstí Slovenského národního povstání'],
+    [/\bDP Ostrava\b/g,'Dopravního podniku Ostrava']
+  ];
+  for(const [rx,to] of replacements)s=s.replace(rx,to);
+  // Improve pauses for locality-qualified stop names without changing display labels.
+  s=s.replace(/,/g,', ')
+     .replace(/\s{2,}/g,' ')
+     .replace(/\s+([.,])/g,'$1')
+     .trim();
+  return s;
+}
+
 function setupLines(){
   els.lineSelect.innerHTML='';
   const keys=Object.keys(modeData()).sort(lineSort);
@@ -30,8 +101,9 @@ function setupStations(){
 function announcementFor(i){
   const arr=stops(),cur=arr[i],next=arr[i+1];
   if(!cur)return'';
-  if(next)return `${cur}. Příští zastávka: ${next}.`;
-  return `${cur}. Konečná zastávka. Prosíme, vystupte.`;
+  const curSpoken=spokenStopName(cur),nextSpoken=spokenStopName(next);
+  if(next)return `${curSpoken}. Příští zastávka: ${nextSpoken}.`;
+  return `${curSpoken}. Konečná zastávka. Prosíme, vystupte.`;
 }
 function render(){
   const d=lineData(),p=pattern(),arr=stops(),i=Number(els.stationSelect.value)||0,cur=arr[i];
@@ -58,9 +130,9 @@ function speak(text,lang='cs-CZ'){return new Promise(resolve=>{if(!('speechSynth
 async function playCurrent(){
   const arr=stops(),i=Number(els.stationSelect.value)||0,cur=arr[i],next=arr[i+1];if(!cur)return;
   els.status.textContent='Přehrávám…';
-  await speak(`${cur}.`);
+  await speak(`${spokenStopName(cur)}.`);
   await sleep(500);
-  if(next){await speak(`Příští zastávka: ${next}.`)}else{await speak('Konečná zastávka. Prosíme, vystupte.')}
+  if(next){await speak(`Příští zastávka: ${spokenStopName(next)}.`)}else{await speak('Konečná zastávka. Prosíme, vystupte.')}
   if(els.autoNext.checked&&next){els.stationSelect.value=i+1;render()}
   els.status.textContent='Připraveno.';
 }
