@@ -1,8 +1,9 @@
 {
-  "name":"Pražské metro – hlášení",
-  "short_name":"Metro hlášení",
-  "description":"Simulátor hlášení linek A, B a C pražského metra.",
+  "name":"MHD hlášení – Praha a Ostrava",
+  "short_name":"MHD hlášení",
+  "description":"Spouštěč simulátoru hlášení MHD pro Prahu a Ostravu.",
   "start_url":"./",
+  "scope":"./",
   "display":"standalone",
   "background_color":"#111827",
   "theme_color":"#111827",
