@@ -7,6 +7,7 @@ on:
       - ostrava-data-pipeline
     paths:
       - 'ostrava/dpo_transit_parser.py'
+      - 'ostrava/finalize_transit_data.py'
       - 'ostrava/requirements.txt'
       - '.github/workflows/validate-ostrava-all.yml'
 
@@ -48,6 +49,7 @@ jobs:
             --debug-dir ostrava/debug
 
       - name: Parse bus timetables
+        continue-on-error: true
         run: |
           python ostrava/dpo_transit_parser.py \
             --mode bus \
@@ -57,42 +59,19 @@ jobs:
             --cache-dir ostrava/.cache/dpo-pdf \
             --debug-dir ostrava/debug
 
-      - name: Build combined transport JSON
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          files = {
-              'tram': 'ostrava/ostrava-tram-data-v2.json',
-              'trolleybus': 'ostrava/ostrava-trolleybus-data.json',
-              'bus': 'ostrava/ostrava-bus-data.json',
-          }
-          out = {'source': 'DPO official PDF timetables', 'modes': {}}
-          for mode, filename in files.items():
-              d = json.loads(Path(filename).read_text(encoding='utf-8'))
-              out['modes'][mode] = {
-                  'source': d['source'],
-                  'generatedAt': d['generatedAt'],
-                  'lines': d['lines'],
-              }
-          Path('ostrava/ostrava-transit-data.json').write_text(
-              json.dumps(out, ensure_ascii=False, indent=2), encoding='utf-8'
-          )
-          PY
+      - name: Finalize and validate combined data
+        run: python ostrava/finalize_transit_data.py
 
       - name: Summarize QA
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          for mode in ('tram', 'trolleybus', 'bus'):
-              p = Path(f'ostrava/{mode if mode != "tram" else "tram"}-report-v2.json') if mode == 'tram' else Path(f'ostrava/{mode}-report.json')
-              rows = json.loads(p.read_text(encoding='utf-8'))
-              ok = sum(bool(x.get('ok')) for x in rows)
-              variants = sum(bool(x.get('hasVariants')) for x in rows)
-              warnings = sum(len(x.get('warnings', [])) for x in rows)
-              print(f'{mode}: {ok}/{len(rows)} OK, {variants} variant lines, {warnings} warnings')
-          PY
+          echo '--- final validation ---'
+          cat ostrava/final-validation.json
+          echo '--- tram report ---'
+          cat ostrava/tram-report-v2.json
+          echo '--- trolleybus report ---'
+          cat ostrava/trolleybus-report.json
+          echo '--- bus report ---'
+          cat ostrava/bus-report.json
 
       - name: Upload parser outputs
         uses: actions/upload-artifact@v4
@@ -103,6 +82,7 @@ jobs:
             ostrava/ostrava-tram-data-v2.json
             ostrava/ostrava-trolleybus-data.json
             ostrava/ostrava-bus-data.json
+            ostrava/final-validation.json
             ostrava/tram-report-v2.json
             ostrava/trolleybus-report.json
             ostrava/bus-report.json
