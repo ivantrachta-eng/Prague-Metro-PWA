@@ -4,17 +4,26 @@
   const exact = new Map([
     ['Strossmayerovo náměstí', 'Štrosmajerovo náměstí'],
     ['Koh-i-noor', 'Kohinor'],
-    ['I. P. Pavlova', 'Í pé Pavlova'],
+    ['I. P. Pavlova', 'Ip Pavlova'],
+    ['I.P.Pavlova', 'Ip Pavlova'],
+    ['IP Pavlova', 'Ip Pavlova'],
     ['Náměstí Olgy Scheinpflugové', 'Náměstí Olgy Šajnpflugové'],
+    ['Slavia', 'Slavia'],
+    ['Slávia', 'Slavia'],
     ['Slavia - Nádraží Eden', 'Slavia, Nádraží Eden'],
-    ['Vozovna Střešovice (Muzeum MHD)', 'Vozovna Střešovice, Muzeum em há dé']
+    ['Vozovna Střešovice (Muzeum MHD)', 'Vozovna Střešovice, Muzeum em há dé'],
+    // U této zastávky používáme čistě fonetický tvar bez samostatné předložky.
+    // „Ulibušského“ iOS stále může segmentovat; „Ulibušský potok“ drží celek
+    // a přitom zní prakticky stejně jako požadované „U Libušského potoka“.
+    ['U Libušského potoka', 'Ulibušský potok']
   ]);
 
   const replacements = [
     [/\bStrossmayerovo náměstí\b/g, 'Štrosmajerovo náměstí'],
     [/\bKoh-i-noor\b/gi, 'Kohinor'],
-    [/\bI\.\s*P\.\s*Pavlova\b/g, 'Í pé Pavlova'],
+    [/\bI\.?\s*P\.?\s*Pavlova\b/gi, 'Ip Pavlova'],
     [/\bOlgy Scheinpflugové\b/g, 'Olgy Šajnpflugové'],
+    [/\bSlávia\b/g, 'Slavia'],
     [/\bMHD\b/g, 'em há dé'],
     [/\bOC\b/g, 'ó cé'],
     [/\bVŠE\b/g, 'vé šé é'],
@@ -23,26 +32,19 @@
   ];
 
   /*
-   * iOS český TTS dělá mezi samostatnou jednopísmennou předložkou a názvem
-   * příliš velkou prosodickou hranici. Neviditelné Unicode spojovače ji na
-   * některých hlasech neodstraní. Proto pro SYNTÉZU použijeme fonetický celek:
-   *   U Libušského -> Ulibušského
-   *   K Barrandovu -> Kbarrandovu
-   *   V Olšinách   -> Volšinách
-   * Zobrazený název se nemění. TTS tak nemá místo, na kterém by mohl vložit
-   * pauzu; česká výslovnost souhlásek zůstává přirozeně spojitá.
+   * iOS SpeechSynthesis si umí znovu rozdělit i text, ze kterého jsme odstranili
+   * mezeru (např. Ulibušského). Proto už neděláme obecné slepování všech
+   * předložek. Problematické názvy dostávají explicitní fonetickou podobu v
+   * mapě výše. Je to stabilnější a nepoškozuje jiné názvy.
    */
-  const linkedPrepositions = /(^|[\s,(;:])([KkSsVvZzUuOo])\s+(?=[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ])/g;
-
-  function linkCzechPrepositions(text) {
-    return String(text).replace(linkedPrepositions, (_, before, prep) => before + prep);
-  }
 
   function applyPronunciation(text) {
     let out = String(text);
-    for (const [name, pronunciation] of exact) out = out.split(name).join(pronunciation);
+    // Nejdříve celé názvy; tím se explicitní fonetické varianty použijí i ve
+    // větách typu „Příští zastávka U Libušského potoka“.
+    const names = [...exact.entries()].sort((a, b) => b[0].length - a[0].length);
+    for (const [name, pronunciation] of names) out = out.split(name).join(pronunciation);
     for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
-    out = linkCzechPrepositions(out);
     return out;
   }
 
