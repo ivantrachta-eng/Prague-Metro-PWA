@@ -23,24 +23,25 @@
   ];
 
   /*
-   * Jednoslabičné české předložky jsou v běžné řeči přízvukovým celkem
-   * s následujícím slovem. Některé iOS hlasy však při obyčejné mezeře
-   * vytvoří slyšitelnou pauzu (např. „U | Libušského potoka“).
-   * Word Joiner U+2060 zachová dvě slova pro TTS, ale zakáže zlom/pauzu
-   * v tomto místě. Nezasahujeme do textu zobrazeného uživateli.
+   * iOS český TTS dělá mezi samostatnou jednopísmennou předložkou a názvem
+   * příliš velkou prosodickou hranici. Neviditelné Unicode spojovače ji na
+   * některých hlasech neodstraní. Proto pro SYNTÉZU použijeme fonetický celek:
+   *   U Libušského -> Ulibušského
+   *   K Barrandovu -> Kbarrandovu
+   *   V Olšinách   -> Volšinách
+   * Zobrazený název se nemění. TTS tak nemá místo, na kterém by mohl vložit
+   * pauzu; česká výslovnost souhlásek zůstává přirozeně spojitá.
    */
-  const WORD_JOINER = '\u2060';
   const linkedPrepositions = /(^|[\s,(;:])([KkSsVvZzUuOo])\s+(?=[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ])/g;
 
   function linkCzechPrepositions(text) {
-    return String(text).replace(linkedPrepositions, (_, before, prep) => before + prep + WORD_JOINER);
+    return String(text).replace(linkedPrepositions, (_, before, prep) => before + prep);
   }
 
   function applyPronunciation(text) {
     let out = String(text);
     for (const [name, pronunciation] of exact) out = out.split(name).join(pronunciation);
     for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
-    // Až nakonec: propojí předložku s prvním slovem názvu po všech náhradách.
     out = linkCzechPrepositions(out);
     return out;
   }
@@ -58,8 +59,6 @@
   window.spokenStopName = spokenStopName;
   window.spokenText = spokenText;
 
-  // app.js používá SpeechSynthesisUtterance přímo. Proxy zajistí, že se korekce
-  // aplikuje centrálně na všechna česká hlášení, včetně metra a příští zastávky.
   const NativeUtterance = window.SpeechSynthesisUtterance;
   if (NativeUtterance) {
     window.SpeechSynthesisUtterance = new Proxy(NativeUtterance, {
