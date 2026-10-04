@@ -8,14 +8,14 @@
     ['I.P.Pavlova', 'Ip Pavlova'],
     ['IP Pavlova', 'Ip Pavlova'],
     ['Náměstí Olgy Scheinpflugové', 'Náměstí Olgy Šajnpflugové'],
-    ['Slavia', 'Slavia'],
-    ['Slávia', 'Slavia'],
-    ['Slavia - Nádraží Eden', 'Slavia, Nádraží Eden'],
+    // Oficiální zápis zůstává Slavia, pro hlas ale potřebujeme dlouhé á.
+    ['Slavia', 'Slávia'],
+    ['Slávia', 'Slávia'],
+    ['Slavia - Nádraží Eden', 'Slávia, Nádraží Eden'],
     ['Vozovna Střešovice (Muzeum MHD)', 'Vozovna Střešovice, Muzeum em há dé'],
-    // U této zastávky používáme čistě fonetický tvar bez samostatné předložky.
-    // „Ulibušského“ iOS stále může segmentovat; „Ulibušský potok“ drží celek
-    // a přitom zní prakticky stejně jako požadované „U Libušského potoka“.
-    ['U Libušského potoka', 'Ulibušský potok']
+    // Pro TTS je předložka připojena přímo k následujícímu slovu, ale zachováváme
+    // celý správný pád názvu: foneticky má zaznít „U Libušského potoka“.
+    ['U Libušského potoka', 'Ulibušského potoka']
   ]);
 
   const replacements = [
@@ -23,7 +23,7 @@
     [/\bKoh-i-noor\b/gi, 'Kohinor'],
     [/\bI\.?\s*P\.?\s*Pavlova\b/gi, 'Ip Pavlova'],
     [/\bOlgy Scheinpflugové\b/g, 'Olgy Šajnpflugové'],
-    [/\bSlávia\b/g, 'Slavia'],
+    [/\bSlavia\b/g, 'Slávia'],
     [/\bMHD\b/g, 'em há dé'],
     [/\bOC\b/g, 'ó cé'],
     [/\bVŠE\b/g, 'vé šé é'],
@@ -31,17 +31,8 @@
     [/\bIKEM\b/g, 'ikem']
   ];
 
-  /*
-   * iOS SpeechSynthesis si umí znovu rozdělit i text, ze kterého jsme odstranili
-   * mezeru (např. Ulibušského). Proto už neděláme obecné slepování všech
-   * předložek. Problematické názvy dostávají explicitní fonetickou podobu v
-   * mapě výše. Je to stabilnější a nepoškozuje jiné názvy.
-   */
-
   function applyPronunciation(text) {
     let out = String(text);
-    // Nejdříve celé názvy; tím se explicitní fonetické varianty použijí i ve
-    // větách typu „Příští zastávka U Libušského potoka“.
     const names = [...exact.entries()].sort((a, b) => b[0].length - a[0].length);
     for (const [name, pronunciation] of names) out = out.split(name).join(pronunciation);
     for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
