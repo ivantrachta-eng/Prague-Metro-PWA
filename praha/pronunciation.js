@@ -22,21 +22,37 @@
     [/\bIKEM\b/g, 'ikem']
   ];
 
+  /*
+   * Jednoslabičné české předložky jsou v běžné řeči přízvukovým celkem
+   * s následujícím slovem. Některé iOS hlasy však při obyčejné mezeře
+   * vytvoří slyšitelnou pauzu (např. „U | Libušského potoka“).
+   * Word Joiner U+2060 zachová dvě slova pro TTS, ale zakáže zlom/pauzu
+   * v tomto místě. Nezasahujeme do textu zobrazeného uživateli.
+   */
+  const WORD_JOINER = '\u2060';
+  const linkedPrepositions = /(^|[\s,(;:])([KkSsVvZzUuOo])\s+(?=[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ])/g;
+
+  function linkCzechPrepositions(text) {
+    return String(text).replace(linkedPrepositions, (_, before, prep) => before + prep + WORD_JOINER);
+  }
+
+  function applyPronunciation(text) {
+    let out = String(text);
+    for (const [name, pronunciation] of exact) out = out.split(name).join(pronunciation);
+    for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
+    // Až nakonec: propojí předložku s prvním slovem názvu po všech náhradách.
+    out = linkCzechPrepositions(out);
+    return out;
+  }
+
   function spokenStopName(name) {
     if (!name) return name;
-    if (exact.has(name)) return exact.get(name);
-    let out = String(name);
-    for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
-    return out;
+    return applyPronunciation(name);
   }
 
   function spokenText(text) {
     if (!text) return text;
-    let out = String(text);
-    // Nejprve přesné názvy, aby fungovaly i uvnitř vět typu „Příští zastávka…“.
-    for (const [name, pronunciation] of exact) out = out.split(name).join(pronunciation);
-    for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
-    return out;
+    return applyPronunciation(text);
   }
 
   window.spokenStopName = spokenStopName;
