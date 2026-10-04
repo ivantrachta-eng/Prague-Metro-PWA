@@ -1,4 +1,4 @@
-const CACHE='mhd-launcher-v13';
+const CACHE='mhd-launcher-v14';
 const ASSETS=[
   './',
   'index.html',
@@ -7,7 +7,7 @@ const ASSETS=[
   'styles.css',
   'app.js',
   'playback-lock.js',
-  'pronunciation.js',
+  'praha/pronunciation.js',
   'transit-data.json',
   'icons/icon-192.png',
   'icons/icon-512.png',
