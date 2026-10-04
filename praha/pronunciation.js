@@ -1,0 +1,56 @@
+/* Výslovnostní vrstva pro český systémový hlas.
+   Nemění zobrazované názvy zastávek, pouze text poslaný do SpeechSynthesis. */
+(() => {
+  const exact = new Map([
+    ['Strossmayerovo náměstí', 'Štrosmajerovo náměstí'],
+    ['Koh-i-noor', 'Kohinor'],
+    ['I. P. Pavlova', 'Í pé Pavlova'],
+    ['Náměstí Olgy Scheinpflugové', 'Náměstí Olgy Šajnpflugové'],
+    ['Slavia - Nádraží Eden', 'Slavia, Nádraží Eden'],
+    ['Vozovna Střešovice (Muzeum MHD)', 'Vozovna Střešovice, Muzeum em há dé']
+  ]);
+
+  const replacements = [
+    [/\bStrossmayerovo náměstí\b/g, 'Štrosmajerovo náměstí'],
+    [/\bKoh-i-noor\b/gi, 'Kohinor'],
+    [/\bI\.\s*P\.\s*Pavlova\b/g, 'Í pé Pavlova'],
+    [/\bOlgy Scheinpflugové\b/g, 'Olgy Šajnpflugové'],
+    [/\bMHD\b/g, 'em há dé'],
+    [/\bOC\b/g, 'ó cé'],
+    [/\bVŠE\b/g, 'vé šé é'],
+    [/\bČVUT\b/g, 'čé vé ú té'],
+    [/\bIKEM\b/g, 'ikem']
+  ];
+
+  function spokenStopName(name) {
+    if (!name) return name;
+    if (exact.has(name)) return exact.get(name);
+    let out = String(name);
+    for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
+    return out;
+  }
+
+  function spokenText(text) {
+    if (!text) return text;
+    let out = String(text);
+    // Nejprve přesné názvy, aby fungovaly i uvnitř vět typu „Příští zastávka…“.
+    for (const [name, pronunciation] of exact) out = out.split(name).join(pronunciation);
+    for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
+    return out;
+  }
+
+  window.spokenStopName = spokenStopName;
+  window.spokenText = spokenText;
+
+  // app.js používá SpeechSynthesisUtterance přímo. Proxy zajistí, že se korekce
+  // aplikuje centrálně na všechna česká hlášení, včetně metra a příští zastávky.
+  const NativeUtterance = window.SpeechSynthesisUtterance;
+  if (NativeUtterance) {
+    window.SpeechSynthesisUtterance = new Proxy(NativeUtterance, {
+      construct(Target, args) {
+        if (args.length && typeof args[0] === 'string') args[0] = spokenText(args[0]);
+        return Reflect.construct(Target, args);
+      }
+    });
+  }
+})();
