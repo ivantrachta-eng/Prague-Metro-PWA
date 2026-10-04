@@ -1,4 +1,4 @@
-const CACHE='mhd-launcher-v19';
+const CACHE='mhd-launcher-v20';
 const ASSETS=[
   './',
   'index.html',
