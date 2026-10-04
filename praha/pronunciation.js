@@ -8,14 +8,13 @@
     ['I.P.Pavlova', 'Ip Pavlova'],
     ['IP Pavlova', 'Ip Pavlova'],
     ['Náměstí Olgy Scheinpflugové', 'Náměstí Olgy Šajnpflugové'],
-    // Oficiální zápis zůstává Slavia, pro hlas ale potřebujeme dlouhé á.
     ['Slavia', 'Slávia'],
     ['Slávia', 'Slávia'],
     ['Slavia - Nádraží Eden', 'Slávia, Nádraží Eden'],
     ['Vozovna Střešovice (Muzeum MHD)', 'Vozovna Střešovice, Muzeum em há dé'],
-    // Pro TTS je předložka připojena přímo k následujícímu slovu, ale zachováváme
-    // celý správný pád názvu: foneticky má zaznít „U Libušského potoka“.
-    ['U Libušského potoka', 'Ulibušského potoka']
+    ['U Libušského potoka', 'Ulibušského potoka'],
+    ['U Průhonu', 'Uprůhonu'],
+    ['U Pruhů', 'Upruhů']
   ]);
 
   const replacements = [
@@ -31,11 +30,32 @@
     [/\bIKEM\b/g, 'ikem']
   ];
 
+  /*
+   * Česká předložka se při přirozené výslovnosti váže k následujícímu slovu.
+   * iOS TTS ale u názvů zastávek často vytvoří slyšitelnou pauzu. Proto pouze
+   * v textu pro syntézu odstraníme mezeru mezi předložkou a prvním slovem.
+   * Funguje i uvnitř názvu: Divadlo Na Fidlovačce -> Divadlo Nafidlovačce.
+   * Zobrazené názvy zůstávají beze změny.
+   */
+  const prepositionPattern = /(^|[\s,(;:])((?:[UuKkSsVvZzOo]|[Nn]a|[Dd]o|[Oo]d|[Pp]o|[Zz]a|[Pp]od|[Nn]ad|[Pp]řed|[Pp]řes|[Pp]ro))\s+(?=[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ])/g;
+
+  function joinPrepositions(text) {
+    let previous;
+    let out = String(text);
+    // Opakování pokryje i případ, kdy by po jedné náhradě vznikl další shodný celek.
+    do {
+      previous = out;
+      out = out.replace(prepositionPattern, (_, before, prep) => before + prep);
+    } while (out !== previous);
+    return out;
+  }
+
   function applyPronunciation(text) {
     let out = String(text);
     const names = [...exact.entries()].sort((a, b) => b[0].length - a[0].length);
     for (const [name, pronunciation] of names) out = out.split(name).join(pronunciation);
     for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
+    out = joinPrepositions(out);
     return out;
   }
 
