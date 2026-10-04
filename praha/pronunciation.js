@@ -8,13 +8,11 @@
     ['I.P.Pavlova', 'Ip Pavlova'],
     ['IP Pavlova', 'Ip Pavlova'],
     ['Náměstí Olgy Scheinpflugové', 'Náměstí Olgy Šajnpflugové'],
+    ['Slavia - Nádraží Eden', 'Slávia, Nádraží Eden'],
     ['Slavia', 'Slávia'],
     ['Slávia', 'Slávia'],
-    ['Slavia - Nádraží Eden', 'Slávia, Nádraží Eden'],
     ['Vozovna Střešovice (Muzeum MHD)', 'Vozovna Střešovice, Muzeum em há dé'],
-    ['U Libušského potoka', 'Ulibušského potoka'],
-    ['U Průhonu', 'Uprůhonu'],
-    ['U Pruhů', 'Upruhů']
+    ['U Libušského potoka', 'Ulibušského potoka']
   ]);
 
   const replacements = [
@@ -31,23 +29,18 @@
   ];
 
   /*
-   * Česká předložka se při přirozené výslovnosti váže k následujícímu slovu.
-   * iOS TTS ale u názvů zastávek často vytvoří slyšitelnou pauzu. Proto pouze
-   * v textu pro syntézu odstraníme mezeru mezi předložkou a prvním slovem.
-   * Funguje i uvnitř názvu: Divadlo Na Fidlovačce -> Divadlo Nafidlovačce.
-   * Zobrazené názvy zůstávají beze změny.
+   * Česká jednoslabičná i víceslabičná předložka tvoří s následujícím slovem
+   * přízvukový celek. iOS TTS však někdy v názvech zastávek vloží po předložce
+   * nepřirozenou pauzu. Proto ji pouze ve fonetickém textu připojíme k dalšímu
+   * slovu. Důležité: předchozí verze vyžadovala velké písmeno po předložce;
+   * proto fungovalo „U Průhonu“, ale ne „U Kaštanu“ v některých kontextech po
+   * transformaci. Nová verze pracuje s českým písmenem bez ohledu na velikost.
    */
-  const prepositionPattern = /(^|[\s,(;:])((?:[UuKkSsVvZzOo]|[Nn]a|[Dd]o|[Oo]d|[Pp]o|[Zz]a|[Pp]od|[Nn]ad|[Pp]řed|[Pp]řes|[Pp]ro))\s+(?=[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ])/g;
+  const PREPOSITIONS = ['Před', 'Přes', 'Pod', 'Nad', 'Pro', 'Bez', 'Mezi', 'Za', 'Na', 'Do', 'Od', 'Po', 'U', 'K', 'S', 'V', 'Z', 'O'];
+  const prepPattern = new RegExp('(^|[\\s,(;:])(' + PREPOSITIONS.join('|') + ')\\s+(?=[A-Za-zÁ-Žá-ž])', 'giu');
 
-  function joinPrepositions(text) {
-    let previous;
-    let out = String(text);
-    // Opakování pokryje i případ, kdy by po jedné náhradě vznikl další shodný celek.
-    do {
-      previous = out;
-      out = out.replace(prepositionPattern, (_, before, prep) => before + prep);
-    } while (out !== previous);
-    return out;
+  function linkPrepositions(text) {
+    return String(text).replace(prepPattern, (_, before, prep) => before + prep);
   }
 
   function applyPronunciation(text) {
@@ -55,7 +48,8 @@
     const names = [...exact.entries()].sort((a, b) => b[0].length - a[0].length);
     for (const [name, pronunciation] of names) out = out.split(name).join(pronunciation);
     for (const [pattern, replacement] of replacements) out = out.replace(pattern, replacement);
-    out = joinPrepositions(out);
+    // Provést až po všech konkrétních fonetických náhradách.
+    out = linkPrepositions(out);
     return out;
   }
 
